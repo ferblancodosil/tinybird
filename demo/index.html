@@ -7,9 +7,14 @@
 	</head>
 <body>
 
-	<table tinybird-table></table>
+	<table tinybird-table query="Select payment_type, SUM(passenger_count) from _ :where group by payment_type :limit"></table>
 
-
-	<script src="/components/table/index.js" type="module"></script>
+	<script>
+		async function initApp() {
+			const tablesComponent = await import('/components/table/index.js');
+			tablesComponent.load();
+		}
+		initApp()
+	</script>
 </body>
 </html>
