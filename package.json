@@ -1,0 +1,18 @@
+{
+  "name": "TinybirdTest",
+  "version": "0.0.0",
+  "description": "A test with Tinybird API",
+  "author": "Fernando Blanco",
+  "license": "MIT",
+  "scripts": {
+    "serve": "http-server -o demo/index.html -p 3000"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.0"
+  },
+  "files": [
+    "components/table/index.js",
+    "components/table/select.css",
+    "README.md"
+  ]
+}
