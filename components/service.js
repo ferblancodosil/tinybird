@@ -7,7 +7,6 @@ const generateUrl = (query) => {
   const filters = utils.getUrlParams(FILTER_PARAMETERS);
   const from = utils.getUrlParam('from') || 0;
   const to = utils.getUrlParam('to') || 50;
-  console.info(filters)
   if (filters.length) query = query.replace(':where', `where ${filters.join(' AND ')}`); // where filters
   query = query.replace(':where', ''); // remove if not exist where params
   query = query.replace(':limit', `limit ${from}, ${to}`) // add limit params
@@ -18,6 +17,7 @@ const generateUrl = (query) => {
 export const executeQuery = async (query) => {
   let url = generateUrl(query)
   if (!_cache[url]) {
+    console.info('execute query', url)
     _cache[url] = fetch(new URL(url), {
       headers: {
         Authorization: TOKEN
