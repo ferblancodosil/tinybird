@@ -21,4 +21,9 @@ export const importCSS = (href) => {
   const link = create( "link", { properties });
 
   document.getElementsByTagName( "head" )[0].appendChild( link );
+};
+
+export const getUrlParam = (name) => new URL(window.location.href).searchParams.get(name);
+export const getUrlParams = (parameter) => {
+  return new URL(window.location.href).searchParams.getAll(parameter);
 }

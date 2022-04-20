@@ -7,14 +7,49 @@
 	</head>
 <body>
 
+	<label for="tpep_pickup_datetime">Pickup date:</label>
+
+	<input type="date" id="tpep_pickup_datetime" name="tpep_pickup_datetime" min="2017-01-01" max="2017-01-31" onchange="refreshDate()">
+	<hr>
+
 	<table tinybird-table query="Select payment_type, SUM(passenger_count) from _ :where group by payment_type :limit"></table>
 
 	<script>
-		async function initApp() {
+		const getParams = async () => {
+			if (!getParams._cache) {
+				const { DATE_PARAMETER, FILTER_PARAMETERS } = await import('/components/env.js');
+				getParams._cache = { DATE_PARAMETER, FILTER_PARAMETERS }
+			}
+			return getParams._cache;
+		}
+		const refreshDate = async () => {
+			const { DATE_PARAMETER, FILTER_PARAMETERS } = await getParams();
+			const searchParams = new URL(window.location.href).searchParams;
+			searchParams.delete(DATE_PARAMETER)
+			searchParams.delete(FILTER_PARAMETERS)
+			searchParams.append(DATE_PARAMETER, document.getElementById('tpep_pickup_datetime').value);
+			searchParams.append(FILTER_PARAMETERS, `toDate(tpep_pickup_datetime) = '${document.getElementById('tpep_pickup_datetime').value}'`);
+			window.location.search = searchParams;
+		}
+		const getUtils = async () => {
+			if (!getUtils._cache) {
+				getUtils._cache = import('/components/utils.js');
+			}
+			return getUtils._cache
+		}
+		const initPickup = async () => {
+			const { DATE_PARAMETER } = await getParams();
+			const utils = await getUtils();
+			const date = utils.getUrlParam(DATE_PARAMETER);
+			if (date) document.getElementById('tpep_pickup_datetime').value = date;
+		}
+		const init = async () => {
+			await initPickup()
 			const tablesComponent = await import('/components/table/index.js');
 			tablesComponent.load();
 		}
-		initApp()
+		init()
 	</script>
 </body>
 </html>
+

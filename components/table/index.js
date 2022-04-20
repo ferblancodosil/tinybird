@@ -2,7 +2,6 @@ const utils = await import('../utils.js');
 const { executeQuery } = await import('../service.js')
 export const TINYTABLE_CLASS = 'tinytable'
 const instances = [];
-const headersCache = {}
 export class TinybirdTable {
   constructor(id, original, api = {}) {
     this.id = id;
@@ -50,7 +49,6 @@ export class TinybirdTable {
     this.tbody.innerHTML = tbody
   }
 }
-
 const getInstances = () => {
   if (!instances.length) {
     Array.from(document.querySelectorAll('[tinybird-table]')).forEach(el => {
@@ -70,10 +68,11 @@ const getInstances = () => {
   return instances;
 }
 
-export async function load() {
+export const load = async () => {
   utils.importCSS('/components/table/index.css')
-  getInstances().forEach(table => {
-    table.refreshData()
+  const tableInstances = await getInstances()
+  tableInstances.forEach(table => {
+    table.refreshData();
   });
-  return instances
+  return tableInstances
 }

@@ -1,8 +1,13 @@
-const { TOKEN, BASE_URL } = await import('./env.js');
+const { TOKEN, BASE_URL, FILTER_PARAMETERS } = await import('./env.js');
+const utils = await import('./utils.js');
 const _cache = {};
 
-const generateUrl = ({ query, filters = [], from = 0, to = 5 } = {}) => {
+const generateUrl = (query) => {
   if (!query) throw new Error('Necessary query to request')
+  const filters = utils.getUrlParams(FILTER_PARAMETERS);
+  const from = utils.getUrlParam('from') || 0;
+  const to = utils.getUrlParam('to') || 50;
+  console.info(filters)
   if (filters.length) query = query.replace(':where', `where ${filters.join(' AND ')}`); // where filters
   query = query.replace(':where', ''); // remove if not exist where params
   query = query.replace(':limit', `limit ${from}, ${to}`) // add limit params
@@ -10,10 +15,9 @@ const generateUrl = ({ query, filters = [], from = 0, to = 5 } = {}) => {
   return `${BASE_URL}${query}`
 }
 
-export const executeQuery = async (query, { filters = [], from = 0, to = 50 } = {}) => {
-  let url = generateUrl({ query, filters, from, to })
+export const executeQuery = async (query) => {
+  let url = generateUrl(query)
   if (!_cache[url]) {
-    console.info('execute query', url)
     _cache[url] = fetch(new URL(url), {
       headers: {
         Authorization: TOKEN
