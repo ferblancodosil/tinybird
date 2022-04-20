@@ -12,7 +12,14 @@
 	<input type="date" id="tpep_pickup_datetime" name="tpep_pickup_datetime" min="2017-01-01" max="2017-01-31" onchange="refreshDate()">
 	<hr>
 
-	<table tinybird-table query="Select payment_type, SUM(passenger_count) from _ :where group by payment_type :limit"></table>
+	<h1>Total data in pickup date</h1>
+	<div class="box">
+		<table class="full-page" tinybird-table query="Select SUM(total_amount) from _ :where :limit"></table>
+		<table class="full-page" tinybird-table query="Select SUM(passenger_count) from _ :where :limit"></table>
+		<table class="full-page" tinybird-table query="Select SUM(trip_distance)  from _ :where :limit"></table>
+	</div>
+	<h1>Details by payment type</h1>
+	<table class="full-page" tinybird-table query="Select payment_type, AVG(total_amount), SUM(passenger_count), AVG(passenger_count), AVG(trip_distance)  from _ :where group by payment_type :limit"></table>
 
 	<script>
 		const getParams = async () => {
