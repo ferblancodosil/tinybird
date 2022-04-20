@@ -25,5 +25,5 @@ export const importCSS = (href) => {
 
 export const getUrlParam = (name) => new URL(window.location.href).searchParams.get(name);
 export const getUrlParams = (parameter) => {
-  return new URL(window.location.href).searchParams.getAll(parameter);
+  return new URL(window.location.href).searchParams.getAll(parameter).filter(e => !!e);
 }

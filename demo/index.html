@@ -8,9 +8,11 @@
 <body>
 
 	<label for="tpep_pickup_datetime">Pickup date:</label>
-
-	<input type="date" id="tpep_pickup_datetime" name="tpep_pickup_datetime" min="2017-01-01" max="2017-01-31">
-	<button id="tpep_pickup_datetime_btn" onclick="refreshDate()">Filter</button>
+	<form onsubmit="refreshDate()">
+		<input type="hidden" id="filters" name="filters">
+		<input type="date" id="tpep_pickup_datetime" name="tpep_pickup_datetime" min="2017-01-01" max="2017-01-31">
+		<input type="submit" id="tpep_pickup_datetime_btn" value="Filter"></input>
+	</form>
 	<hr>
 
 	<h1>Total data in pickup date</h1>
@@ -30,14 +32,8 @@
 			}
 			return getParams._cache;
 		}
-		const refreshDate = async () => {
-			const { DATE_PARAMETER, FILTER_PARAMETERS } = await getParams();
-			const searchParams = new URL(window.location.href).searchParams;
-			searchParams.delete(DATE_PARAMETER)
-			searchParams.delete(FILTER_PARAMETERS)
-			searchParams.append(DATE_PARAMETER, document.getElementById('tpep_pickup_datetime').value);
-			searchParams.append(FILTER_PARAMETERS, `toDate(tpep_pickup_datetime) = '${document.getElementById('tpep_pickup_datetime').value}'`);
-			window.location.search = searchParams;
+		const refreshDate = async (event) => {
+			if (document.getElementById('tpep_pickup_datetime').value) document.getElementById('filters').value = `toDate(tpep_pickup_datetime) = '${document.getElementById('tpep_pickup_datetime').value}'`;
 		}
 		const getUtils = async () => {
 			if (!getUtils._cache) {
