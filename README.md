@@ -1,5 +1,7 @@
 # Tinybird
 
+This is a KPI that allows you to test and visualize data from the Tinybird API. I decided to create a table component because we can apply css and adapt it and transform it into a KPI, a table, etc.
+
 ## Steps to install
 
 ```
@@ -36,7 +38,7 @@ The query attribute have the posibility to listen params. We should add in the q
 * attribute :where: with this param in the query our component will be listen the url params 'filters'
 * attribute :limit with this param in the query our component will be listen the url params 'from' and 'to'. If not exist urls params but we add in the query this attribute by default will be use 0 and 50
 
-Example: http://localhost?filters=param>1&otherparam=1&from=0&to10 our query will transform in
+Example: http://localhost?filters=param>1&otherparam=1&from=0&to=10 our query will transform in
 
 ````
 WHERE param>1 AND otherparam=1 limit 0, 10
