@@ -11,7 +11,7 @@ This is a KPI that allows you to test and visualize data from the Tinybird API. 
 ## Steps to run dev
 
 ```
-    yarn serve
+    yarn dev
 ```
 
 ## Steps to run cypress tests
@@ -38,7 +38,7 @@ The query attribute have the posibility to listen params. We should add in the q
 * attribute :where: with this param in the query our component will be listen the url params 'filters'
 * attribute :limit with this param in the query our component will be listen the url params 'from' and 'to'. If not exist urls params but we add in the query this attribute by default will be use 0 and 50
 
-Example: http://localhost?filters=param>1&otherparam=1&from=0&to=10 our query will transform in
+Example: http://localhost:3000?filters=param>1&otherparam=1&from=0&to=10 our query will transform in
 
 ````
 WHERE param>1 AND otherparam=1 limit 0, 10
